@@ -42,10 +42,19 @@ p:focus {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 28px;
+  font-size: 24px;
   font-family: 'Courier New', monospace;
   background: rgba(0, 0, 0, 0.7);
   padding: 20px 30px;
   border-radius: 10px;
   z-index: 2;
+  display: none;
 }
+
+#pong-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+

@@ -1,12 +1,16 @@
 html, body {
   margin: 0;
   padding: 0;
+  background: #000;
+  color: #fff;
+  font-family: sans-serif;
   height: 100%;
   overflow: hidden;
 }
 
 #pong-wrapper {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -14,6 +18,20 @@ html, body {
 }
 
 canvas {
+  border-radius: 10px;
+  background-color: #2C3E50;
   max-width: 100%;
   max-height: 100%;
+}
+
+p {
+  font-style: italic;
+  opacity: 0.5;
+  transition-duration: 1s;
+  color: white;
+}
+
+p:hover,
+p:focus {
+  opacity: 1;
 }

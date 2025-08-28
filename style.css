@@ -24,17 +24,10 @@ canvas {
   max-height: 100%;
 }
 
-p {
-  font-style: italic;
-  opacity: 0.5;
-  transition-duration: 1s;
-  color: white;
+#pong-wrapper p {
+  display: none !important;
 }
 
-p:hover,
-p:focus {
-  opacity: 1;
-}
 
 #start-screen {
   position: absolute;

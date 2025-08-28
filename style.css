@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#pong-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+canvas {
+  border-radius: 10px;
+  background-color: #2C3E50;
+}
+
+p {
+  font-style: italic;
+  opacity: 0.5;
+  transition-duration: 1s;
+}
+
+p:hover,
+p:focus {
+  opacity: 1;
+}

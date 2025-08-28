@@ -88,13 +88,15 @@ class Ball {
   }
 }
 
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("pong-canvas");
   const ctx = canvas.getContext("2d");
   const startScreen = document.getElementById("start-screen");
-  const modalSelector = "#cta-popup-1756366154475"; // Replace this with your actual modal selector
+  const modal = document.querySelector("#cta-popup-1756366154475 .modal__content");
+
   let gameStarted = false;
-  let modalOpen = false;
 
   canvas.width = 800;
   canvas.height = 500;
@@ -135,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ai.draw(ctx);
     ball.draw(ctx);
 
+    // Simple AI
     if (ball.y < ai.y + ai.height / 2) {
       ai.move = DIRECTION.UP;
     } else if (ball.y > ai.y + ai.height / 2) {
@@ -147,35 +150,46 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function startGame() {
-    if (!gameStarted && modalOpen) {
+    if (!gameStarted && isModalOpen()) {
       gameStarted = true;
       startScreen.style.display = "none";
       requestAnimationFrame(gameLoop);
     }
   }
 
-  // Monitor modal visibility
+  function resetGame() {
+    gameStarted = false;
+    player.score = 0;
+    ai.score = 0;
+    ball.reset();
+    startScreen.style.display = "none";
+  }
+
+  // Check if modal is visible
+  function isModalOpen() {
+    return modal && modal.closest("#cta-popup-1756366154475").classList.contains("is-open");
+  }
+
+  // Watch modal state
   const observer = new MutationObserver(() => {
-    const modal = document.querySelector(modalSelector);
-    if (modal && modal.style.display !== "none") {
-      modalOpen = true;
+    if (isModalOpen()) {
+      // Show start screen when modal opens
       startScreen.style.display = "block";
+      resetGame();
     } else {
-      modalOpen = false;
-      gameStarted = false;
-      startScreen.style.display = "none";
+      resetGame();
     }
   });
 
   observer.observe(document.body, {
-    childList: true,
-    subtree: true,
     attributes: true,
-    attributeFilter: ['style', 'class']
+    childList: true,
+    subtree: true
   });
 
   // Key press to start
   document.addEventListener("keydown", (e) => {
+    if (!isModalOpen()) return; // Only work inside modal
     startGame();
 
     if (!gameStarted) return;

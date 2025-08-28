@@ -91,6 +91,10 @@ class Ball {
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("pong-canvas");
   const ctx = canvas.getContext("2d");
+  const startScreen = document.getElementById("start-screen");
+  const modalSelector = "#cta-popup-1756366154475"; // Replace this with your actual modal selector
+  let gameStarted = false;
+  let modalOpen = false;
 
   canvas.width = 800;
   canvas.height = 500;
@@ -116,6 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function gameLoop() {
+    if (!gameStarted) return;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawCenterLine();
@@ -129,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ai.draw(ctx);
     ball.draw(ctx);
 
-    // Very basic AI movement
     if (ball.y < ai.y + ai.height / 2) {
       ai.move = DIRECTION.UP;
     } else if (ball.y > ai.y + ai.height / 2) {
@@ -141,7 +146,40 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(gameLoop);
   }
 
+  function startGame() {
+    if (!gameStarted && modalOpen) {
+      gameStarted = true;
+      startScreen.style.display = "none";
+      requestAnimationFrame(gameLoop);
+    }
+  }
+
+  // Monitor modal visibility
+  const observer = new MutationObserver(() => {
+    const modal = document.querySelector(modalSelector);
+    if (modal && modal.style.display !== "none") {
+      modalOpen = true;
+      startScreen.style.display = "block";
+    } else {
+      modalOpen = false;
+      gameStarted = false;
+      startScreen.style.display = "none";
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['style', 'class']
+  });
+
+  // Key press to start
   document.addEventListener("keydown", (e) => {
+    startGame();
+
+    if (!gameStarted) return;
+
     if (e.key === "w" || e.key === "ArrowUp") {
       player.move = DIRECTION.UP;
     } else if (e.key === "s" || e.key === "ArrowDown") {
@@ -150,8 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.addEventListener("keyup", () => {
-    player.move = DIRECTION.IDLE;
+    if (gameStarted) player.move = DIRECTION.IDLE;
   });
-
-  gameLoop();
 });

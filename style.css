@@ -1,4 +1,4 @@
-html, body {
+ehtml, body {
   margin: 0;
   padding: 0;
   background: #000;
@@ -19,7 +19,7 @@ html, body {
 
 canvas {
   border-radius: 10px;
-  background-color: #2C3E50;
+  background-color: #1e1e1e;
   max-width: 100%;
   max-height: 100%;
 }
